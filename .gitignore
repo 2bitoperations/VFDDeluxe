@@ -6,3 +6,6 @@
 *.hex
 *.map
 *.zip
+*.idea
+*.iml
+*.log
