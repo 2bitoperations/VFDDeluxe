@@ -60,8 +60,8 @@ struct __settings
 #ifdef HAVE_AUTO_DST  // DST rules
 	uint8_t DST_Rules[9];
 #endif
-#ifdef HAVE_AUTO_DATE
 	date_format_t date_format;
+#ifdef HAVE_AUTO_DATE
 	uint8_t AutoDate;
 #endif
 #ifdef HAVE_AUTO_DIM

@@ -58,6 +58,7 @@ void show_set_alarm(void);
 
 void set_string(const char* str, uint8_t offset);
 void set_string(const char* str);
+void set_raw(char* raw);
 void set_scroll(char* str);
 void set_char_at(char c, uint8_t offset);
 

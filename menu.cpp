@@ -121,7 +121,7 @@ void menu_action(menu_item * menuPtr)
 		case MENU_RULE7:
 		case MENU_RULE8:
 #endif
-#if defined HAVE_GPS || defined HAVE_AUTO_DST
+#if defined HAVE_GPS && defined HAVE_AUTO_DST
 		case MENU_DST_ENABLE:
 			g_DST_updated = false;  // allow automatic DST adjustment again
 			DSTinit(tt, settings.DST_Rules);  // re-compute DST start, end for new data

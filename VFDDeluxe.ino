@@ -187,6 +187,14 @@ typedef enum {
 display_mode_t display_mode = MODE_NORMAL;
 display_mode_t saved_display_mode = MODE_NORMAL;
 
+struct serial_set_t {
+  char raw[6];
+  uint8_t brightness;
+  boolean valid;
+};
+
+serial_set_t serial_set;
+
 void push_display_mode(display_mode_t d)
 {
     saved_display_mode = display_mode;
@@ -258,7 +266,7 @@ void initialize(void)
   g_has_flw = flw.has_eeprom();
 //  flw.setCensored(settings.flw_enabled == FLW_ON);
 #else
-  g_has_flw = false;
+  // g_has_flw = false;
 //  settings.flw_enabled = FLW_OFF;
 #endif
 
@@ -292,6 +300,8 @@ void initialize(void)
   // fixme: change depending on HAVE_ROTARY define
 //  initialize_button(PinMap::button1, PinMap::button2);
   initialize_button(PinMap::button2, PinMap::button1);
+  
+  serial_set.valid = false;
 
 }
 
@@ -430,6 +440,14 @@ void update_time()
 
 void update_display()
 {
+  
+#ifdef HAVE_SERIAL_CTL
+    if (serial_set.valid == true) {
+      set_raw(serial_set.raw);
+      set_brightness(serial_set.brightness);
+      return;
+    }
+#endif
 
 #ifdef HAVE_AUTO_DST
         
@@ -499,6 +517,7 @@ void update_display()
         show_time(tt, settings.clock_24h, MODE_NORMAL);
         if (tt->sec >= 4 && tt->sec < 5) pop_display_mode();
     }
+#ifdef HAVE_AUTO_DATE    
     else if (settings.AutoDate && display_mode < MODE_LAST && tt->sec == 55) { // display date at 55 seconds
         scroll_speed(300);  // display date at 3 cps
 #ifdef HAVE_MESSAGES
@@ -515,6 +534,7 @@ void update_display()
           scroll_date(tt, settings.date_format);  // show date from last rtc_get_time() call
         push_display_mode(MODE_AUTO_DATE);
     }
+#endif
 #ifdef HAVE_FLW
     else if (display_mode == MODE_FLW) {
         display_flw();
@@ -568,7 +588,11 @@ uint8_t wt = 0;
     wt++;
   }
 //  while (!Serial) ;  // second time's the charm...
-  Serial.begin(9600);
+#endif
+#ifdef HAVE_SERIAL_CTL || HAVE_SERIAL_DEBUG
+  Serial.begin(115200);
+#endif
+#ifdef HAVE_SERIAL_DEBUG
   _delay_ms(3000); // allow time to get serial port open
 
 //  Serial.println("VFD Deluxe");
@@ -664,6 +688,27 @@ void loop()
   while (1) {
     t1 = wMillis();
     get_button_state(&buttons);
+    
+    // !<bright>[012345]
+    if (Serial.available() >= 8) {
+      int r = Serial.read();
+      if (r == 0x21) {
+        int bright = Serial.read() - 0x30;
+        if (bright < 0) {
+          bright = 0;
+        } else if (bright > 10) {
+          bright = 10;
+        }
+        serial_set.brightness = bright;
+        
+        for (int i = 0; i < 6; i++) {
+          int c = Serial.read();
+          serial_set.raw[i] = c;
+        }
+        
+        serial_set.valid = true;
+      }
+    }
 
     if ((buttons.b1_keyup) || (buttons.b2_keyup)) {
       save_timer = 0; // reset global save timer

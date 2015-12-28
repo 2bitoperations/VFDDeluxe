@@ -58,8 +58,8 @@ __settings settings = {
 	3,1,2,2, 11,1,1,2, 1,
 #endif
 #endif
-#ifdef HAVE_AUTO_DATE
 	FORMAT_YMD, // date format
+#ifdef HAVE_AUTO_DATE
 	false, // auto date
 #endif
 #ifdef HAVE_AUTO_DIM

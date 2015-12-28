@@ -86,6 +86,30 @@ uint8_t calculate_segments_7(uint8_t ch)
 		segs = segB;
 	else if (ch == '_')
 		segs = segD;
+        else if (ch == '^')
+                segs = segA;
+        else if (ch == '-')
+                segs = segG;
+        else if (ch == '_')
+                segs = segD;
+        else if (ch == '=')
+                segs = segD + segG;
+        else if (ch == '`')
+                segs = segF;
+        else if (ch == '#')
+                segs = segA + segD + segG;
+        else if (ch == ')')
+                segs = segB + segC;
+        else if (ch == '(')
+                segs = segF + segE;
+        else if (ch == '\\')
+                segs = segF + segC;
+        else if (ch == '/')
+                segs = segE + segB;
+        else if (ch == '~')
+                segs = segA+ segG;
+        else if (ch == '%')
+                segs = segA + segD;
 	else
 		segs = 0;
 	return segs;

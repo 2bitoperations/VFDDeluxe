@@ -83,28 +83,30 @@ enum shield_t {
 #define FEATURE_MPL115A2 NO // Temperature and Atmospheric pressure sensor
 #define FEATURE_HIH6121 NO   // Temperature and Humidity sensor
 #define FEATURE_ROTARY NO
-#define FEATURE_GPS YES
-#define FEATURE_GPS_DEBUG YES
+#define FEATURE_GPS NO
+#define FEATURE_GPS_DEBUG NO
 #define FEATURE_RGB_BACKLIGHT NO
 #define FEATURE_LOWERCASE YES
 #define FEATURE_ALTERNATE_FONT YES
 #define FEATURE_SERIAL_DEBUG NO // Wait for serial console to open before booting
 //#define FEATURE_SERIAL_DEBUG YES
-#define FEATURE_FLW YES
+#define FEATURE_FLW NO
 //#define FEATURE_FLW NO
 #define FEATURE_RTC_SQW YES
 //#define FEATURE_RTC_SQW NO // wbp
-#define FEATURE_AUTO_DATE YES
-#define FEATURE_AUTO_DST YES
-#define FEATURE_AUTO_DIM YES
+#define FEATURE_AUTO_DATE NO
+#define FEATURE_AUTO_DST NO
+#define FEATURE_AUTO_DIM NO
 #define FEATURE_SET_DATE YES // set date in menu?
 #define FEATURE_SET_TIME YES // add "TIME" to menu?
-#define FEATURE_MESSAGES YES // birthday, etc
+#define FEATURE_MESSAGES NO // birthday, etc
 
 // Support for generic displays (excludes the standard shields)
 #define FEATURE_7SEG_SUPPORT NO
 #define FEATURE_14SEG_SUPPORT NO
 #define FEATURE_16SEG_SUPPORT NO
+
+#define HAVE_SERIAL_CTL
 
 
 // fixme: this can be automatic based on __AVR_ATmega32U4__ define

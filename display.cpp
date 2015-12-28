@@ -712,6 +712,14 @@ void show_pressure(uint8_t pressure)
   }
 }
 
+void set_raw(char* raw) {
+  if (!raw) return;
+  clear_data();
+  for (int i = 0; i <= digits-1; i++) {
+    data[i] = raw[i];
+  }
+}
+
 void set_string(const char* str, uint8_t offset /* =0 */)
 {
   if (!str) return;
